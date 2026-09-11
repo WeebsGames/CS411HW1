@@ -152,6 +152,34 @@ def breadthFirstSearch(problem):
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
+    from util import PriorityQueue
+    
+    fringe = PriorityQueue()
+    for x in problem.getSuccessors(problem.getStartState()):
+        fringe.push((x, []), x[2])
+    directions = []
+    visited = [problem.getStartState()]
+    
+    while True:
+        if(fringe.isEmpty()):
+            break
+        curr, directions = fringe.pop()
+        if(problem.isGoalState(curr[0])):
+            # print("goal", curr)
+            directions.append(curr[1])
+            break
+        if not curr[0] in visited:
+            # print("curr", curr)
+            visited.append(curr[0])
+            for node in problem.getSuccessors(curr[0]):
+                # print("node", node)
+                fringe.push((node, directions + [curr[1]]), node[2])
+    
+    # print(visited)
+    # print(directions)
+    # while not fringe.isEmpty():
+    #     print(fringe.pop())
+    return directions
     util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
