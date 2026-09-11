@@ -93,35 +93,61 @@ def depthFirstSearch(problem):
     for x in problem.getSuccessors(problem.getStartState()):
         fringe.push((x, []))
     directions = []
-    visited = []
+    visited = [problem.getStartState()]
 
     while True:
         if(fringe.isEmpty()):
             break
         curr, directions = fringe.pop()
         if(problem.isGoalState(curr[0])):
-            print("goal", curr)
+            # print("goal", curr)
             directions.append(curr[1])
             break
         if not curr[0] in visited:
-            print("curr", curr)
+            # print("curr", curr)
             visited.append(curr[0])
             for node in problem.getSuccessors(curr[0]):
                 print("node", node)
                 fringe.push((node, directions + [curr[1]]))
 
-    print(visited)
-    print(directions)
-    while not fringe.isEmpty():
-        print(fringe.pop())
+    # print(visited)
+    # print(directions)
+    # while not fringe.isEmpty():
+    #     print(fringe.pop())
     return directions
     
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
+    from util import Queue
     
-    util.raiseNotDefined()
+    fringe = Queue()
+    for x in problem.getSuccessors(problem.getStartState()):
+        fringe.push((x, []))
+    directions = []
+    visited = [problem.getStartState()]
+    
+    while True:
+        if(fringe.isEmpty()):
+            break
+        curr, directions = fringe.pop()
+        if(problem.isGoalState(curr[0])):
+            # print("goal", curr)
+            directions.append(curr[1])
+            break
+        if not curr[0] in visited:
+            # print("curr", curr)
+            visited.append(curr[0])
+            for node in problem.getSuccessors(curr[0]):
+                # print("node", node)
+                fringe.push((node, directions + [curr[1]]))
+    
+    # print(visited)
+    # print(directions)
+    # while not fringe.isEmpty():
+    #     print(fringe.pop())
+    return directions
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
