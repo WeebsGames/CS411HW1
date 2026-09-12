@@ -156,14 +156,14 @@ def uniformCostSearch(problem):
     
     fringe = PriorityQueue()
     for x in problem.getSuccessors(problem.getStartState()):
-        fringe.push((x, []), x[2])
+        fringe.push((x, [], 0), x[2])
     directions = []
     visited = [problem.getStartState()]
-    
+     
     while True:
         if(fringe.isEmpty()):
             break
-        curr, directions = fringe.pop()
+        curr, directions, totalCost = fringe.pop()
         if(problem.isGoalState(curr[0])):
             # print("goal", curr)
             directions.append(curr[1])
@@ -173,7 +173,7 @@ def uniformCostSearch(problem):
             visited.append(curr[0])
             for node in problem.getSuccessors(curr[0]):
                 # print("node", node)
-                fringe.push((node, directions + [curr[1]]), node[2])
+                fringe.push((node, directions + [curr[1]], totalCost + node[2]), totalCost + node[2])
     
     # print(visited)
     # print(directions)
@@ -192,6 +192,34 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
+    from util import PriorityQueue
+    
+    fringe = PriorityQueue()
+    for x in problem.getSuccessors(problem.getStartState()):
+        fringe.push((x, [], x[2]), x[2] + heuristic(x[0], problem))
+    directions = []
+    visited = [problem.getStartState()]
+    
+    while True:
+        if(fringe.isEmpty()):
+            break
+        curr, directions, totalCost = fringe.pop()
+        if(problem.isGoalState(curr[0])):
+            # print("goal", curr)
+            directions.append(curr[1])
+            break
+        if not curr[0] in visited:
+            # print("curr", curr)
+            visited.append(curr[0])
+            for node in problem.getSuccessors(curr[0]):
+                # print("node", node)
+                fringe.push((node, directions + [curr[1]], totalCost + node[2]), totalCost + node[2] + heuristic(node[0], problem))
+    
+    # print(visited)
+    # print(directions)
+    # while not fringe.isEmpty():
+    #     print(fringe.pop())
+    return directions
     util.raiseNotDefined()
 
 
