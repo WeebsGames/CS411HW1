@@ -143,7 +143,6 @@ def breadthFirstSearch(problem):
                 # print("node", node)
                 fringe.push((node, directions + [curr[1]]))
     
-    # print(visited)
     # print(directions)
     # while not fringe.isEmpty():
     #     print(fringe.pop())
